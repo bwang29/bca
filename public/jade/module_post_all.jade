@@ -1,0 +1,6 @@
+- each post in posts
+    .post_all_wrapper
+      if post.url
+        .post(style= "background-image:url("+ post.url+ ")")
+      else
+        .reflect= post.reflect

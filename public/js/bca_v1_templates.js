@@ -44,6 +44,55 @@ buf.push("<div class=\"time\">" + (jade.escape(null == (jade.interp = post.time)
 ;return buf.join("");
 };
 
+this["bca_templates"]["jade/module_post_all"] = function anonymous(locals) {
+var buf = [];
+var locals_ = (locals || {}),posts = locals_.posts;// iterate posts
+;(function(){
+  var $$obj = posts;
+  if ('number' == typeof $$obj.length) {
+
+    for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+      var post = $$obj[$index];
+
+buf.push("<div class=\"post_all_wrapper\">");
+if ( post.url)
+{
+buf.push("<div" + (jade.attrs({ 'style':("background-image:url("+ post.url+ ")"), "class": [('post')] }, {"style":true})) + "></div>");
+}
+else
+{
+buf.push("<div class=\"reflect\">" + (jade.escape(null == (jade.interp = post.reflect) ? "" : jade.interp)) + "</div>");
+}
+buf.push("</div>");
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in $$obj) {
+      $$l++;      var post = $$obj[$index];
+
+buf.push("<div class=\"post_all_wrapper\">");
+if ( post.url)
+{
+buf.push("<div" + (jade.attrs({ 'style':("background-image:url("+ post.url+ ")"), "class": [('post')] }, {"style":true})) + "></div>");
+}
+else
+{
+buf.push("<div class=\"reflect\">" + (jade.escape(null == (jade.interp = post.reflect) ? "" : jade.interp)) + "</div>");
+}
+buf.push("</div>");
+    }
+
+  }
+}).call(this);
+;return buf.join("");
+};
+
+this["bca_templates"]["jade/page_all"] = function anonymous(locals) {
+var buf = [];
+;return buf.join("");
+};
+
 this["bca_templates"]["jade/page_home"] = function anonymous(locals) {
 var buf = [];
 ;return buf.join("");
