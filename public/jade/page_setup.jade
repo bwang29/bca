@@ -1,0 +1,15 @@
+#choose_task
+  center
+    h2 setup
+  #own_task_wrapper
+    #own_task
+      h3 Choose my own task
+      textarea#my_own_task()
+  #given_task_wrapper
+    #given_task
+      h3 Or use preset tasks
+      - each task in preset_tasks
+        .preset_task= task
+  center
+    #setup_button
+      .button Done

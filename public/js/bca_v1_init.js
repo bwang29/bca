@@ -47,6 +47,16 @@ UI = (function() {
 
   UI.prototype.render_append = function(el, template_name, context, callback) {
     var _this = this;
+    if (!el) {
+      el = $("#" + this.container);
+    }
+    if (typeof el === "string") {
+      if (el[0] === "#" || el[0] === ".") {
+        el = $(el);
+      } else {
+        el = $("#" + el);
+      }
+    }
     context.mixins = this.mixins;
     context.helpers = this.helpers;
     el.append(bca_templates["jade/" + template_name](context));
@@ -59,6 +69,16 @@ UI = (function() {
 
   UI.prototype.render_rewrite = function(el, template_name, context, callback) {
     var _this = this;
+    if (!el) {
+      el = $("#" + this.container);
+    }
+    if (typeof el === "string") {
+      if (el[0] === "#" || el[0] === ".") {
+        el = $(el);
+      } else {
+        el = $("#" + el);
+      }
+    }
     context.mixins = this.mixins;
     context.helpers = this.helpers;
     el.html(bca_templates["jade/" + template_name](context));

@@ -18,6 +18,10 @@ BCA.rt = Davis () ->
     this.generateRequestOnPageLoad = true
   this.get '/', (req) ->
     (new HOME).init()
+  this.get '/feed', (req) ->
+    (new FEED).init()
+  this.get '/setup', (req) ->
+    (new SETUP).init()
   this.get '/all', (req) ->
     (new ALL).init()
 
@@ -30,6 +34,32 @@ BCA.rt.bind("runRoute", (request) ->
 ).bind("routeNotFound", (request) ->
 ).bind("start", ->
   BCA.rt.logger.info "BCA started"
+  # connect to database
+  BCA.fb_user = null
+  BCA.db_user_tasks = null
+  BCA.db_user_uploads = null
+  BCA.db = new Firebase('https://bca.firebaseIO.com')
+  BCA.db_users = new Firebase('https://bca.firebaseIO.com/users')
+  BCA.db_uploads = new Firebase('https://bca.firebaseIO.com/uploads')
+  BCA.db_tasks = new Firebase('https://bca.firebaseIO.com/tasks')
+
+  BCA.ui.render_rewrite $("body"), "wrapper", {}, (el) =>
+    BCA.rt.logger.info "BCA wrapper rendered"
+    $("#login_button").unbind().click ()->
+      BCA.auth.login "facebook" ,
+        rememberMe: true,
+        scope: 'email'
+    $("#logout_button").unbind().click ()->
+      BCA.auth.logout()
+      BCA.rt.route_to ""
+    $("#restart_button").unbind().click ()->
+      r = confirm("Are you sure to restart? All progress will be lost!")
+      if r
+        BCA.db_user_uploads.remove()
+        BCA.db_user_tasks.remove()
+        BCA.auth.logout()
+        BCA.rt.route_to ""
+
 ).bind "stop", ->
   BCA.rt.logger.info "BCA stopped"
 

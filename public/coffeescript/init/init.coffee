@@ -25,6 +25,13 @@ class UI
   schedule: (func) ->
     setTimeout func, 0
   render_append: (el,template_name,context,callback) ->
+    if !el
+      el = $("#"+this.container)
+    if typeof el == "string"
+      if el[0] == "#" || el[0] == "."
+        el = $(el)
+      else
+        el = $("#"+el)
     context.mixins = this.mixins
     context.helpers = this.helpers
     el.append bca_templates["jade/#{template_name}"](context)
@@ -32,6 +39,13 @@ class UI
       this.schedule =>
         callback(el)
   render_rewrite: (el,template_name,context,callback) ->
+    if !el
+      el = $("#"+this.container)
+    if typeof el == "string"
+      if el[0] == "#" || el[0] == "."
+        el = $(el)
+      else
+        el = $("#"+el)
     context.mixins = this.mixins
     context.helpers = this.helpers
     el.html bca_templates["jade/#{template_name}"](context)
