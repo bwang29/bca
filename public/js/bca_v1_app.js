@@ -119,7 +119,6 @@ FEED = (function() {
           c_date = parseInt(p.time.split('/')[2].trim()) + ctr;
           $(".d_" + c_month + "_" + c_date + " div").css("background-image", "url(" + p.url + ")");
           $(".d_" + c_month + "_" + c_date).data("idx", idx);
-          ctr += 1;
         }
       }
       if (that.model.posts_array.length === 0) {
@@ -189,6 +188,11 @@ FEED = (function() {
         }
       }
       that.model.posts_array = posts_array;
+      if (has_access && posts_array.length !== 0 && posts_array[0].time === that.get_date(new Date())) {
+        $("#image_upload_wrapper_bg").hide();
+        $("#reflection_wrapper_bg").hide();
+        $("#done_today").show();
+      }
       allow_delete = false;
       if (has_access) {
         allow_delete = true;

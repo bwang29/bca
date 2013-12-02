@@ -45,7 +45,7 @@ class FEED
           c_date = parseInt(p.time.split('/')[2].trim())+ctr
           $(".d_#{c_month}_#{c_date} div").css("background-image","url("+p.url+")")
           $(".d_#{c_month}_#{c_date}").data("idx",idx)
-          ctr += 1
+          #ctr += 1# for demo only
       if that.model.posts_array.length == 0
         $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>")
       $(".c_date").unbind().click ()->
@@ -92,10 +92,10 @@ class FEED
           $("#done_today").hide()
 
       that.model.posts_array = posts_array
-      # if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
-      #   $("#image_upload_wrapper_bg").hide()
-      #   $("#reflection_wrapper_bg").hide()
-      #   $("#done_today").show()
+      if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
+        $("#image_upload_wrapper_bg").hide()
+        $("#reflection_wrapper_bg").hide()
+        $("#done_today").show()
 
       allow_delete = false
       if has_access
