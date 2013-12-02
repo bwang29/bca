@@ -20,6 +20,12 @@ $font_sans_pro: 'Source+Sans+Pro',sans-serif
   -o-transition: $transition-property $transition-time $method
   transition: $transition-property $transition-time $method
 
+@mixin rounded($radius: 3px)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  border-radius: $radius
+
+
 @mixin color_transition($color-from, $color-to)
   // @include transition(0.1s)
   color: $color-from
@@ -58,13 +64,14 @@ div
 
 body
   font-family: $font_sans
-  background: #292929
+  background-color: #292929
+  background-image: url("/img/tweed.png")
   color: #efefef
   padding: 0
   margin: 0
 
 i
-  margin-right: 10px
+  margin: 0 10px
 
 textarea
   border: none

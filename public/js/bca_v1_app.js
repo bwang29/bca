@@ -32,8 +32,10 @@ ALL = (function() {
       posts_array.sort(function(a, b) {
         return b.time - a.time;
       });
-      return BCA.ui.render_rewrite($("body"), "module_post_all", {
-        posts: posts_array
+      return BCA.ui.render_rewrite($("body"), "module_post", {
+        posts: posts_array,
+        allow_delete: false,
+        show_time: false
       }, function(el) {});
     });
     return this;
@@ -51,7 +53,8 @@ FEED = (function() {
   FEED.prototype.model = {
     dummy: "",
     fb_user: null,
-    today: ""
+    today: "",
+    posts_array: null
   };
 
   FEED.prototype.bind_submit_image = function() {
@@ -84,13 +87,68 @@ FEED = (function() {
     });
   };
 
+  FEED.prototype.render_cal = function(month) {
+    var that;
+    if (!month) {
+      month = that.get_current_month();
+    }
+    that = this;
+    $("#calendar").html(BCA.ui.make_cal(month - 1));
+    return BCA.ui.schedule(function() {
+      var c_date, c_month, ctr, idx, p, _i, _len, _ref;
+      if (month === 12) {
+        $(".next_month").hide();
+      }
+      if (month === 1) {
+        $(".prev_month").hide();
+      }
+      $(".prev_month").unbind().click(function() {
+        return that.render_cal(month - 1);
+      });
+      $(".next_month").unbind().click(function() {
+        return that.render_cal(month + 1);
+      });
+      ctr = 0;
+      _ref = that.model.posts_array;
+      for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
+        p = _ref[idx];
+        if (p.url !== "") {
+          c_month = parseInt(p.time.split('/')[1].trim());
+          c_date = parseInt(p.time.split('/')[2].trim()) + ctr;
+          $(".d_" + c_month + "_" + c_date + " div").css("background-image", "url(" + p.url + ")");
+          $(".d_" + c_month + "_" + c_date).data("idx", idx);
+          ctr += 1;
+        }
+      }
+      $(".c_date").unbind().click(function() {
+        var _this = this;
+        idx = $(this).data('idx');
+        if (typeof idx !== "undefined") {
+          return BCA.ui.render_rewrite("preview", "module_post", {
+            posts: [that.model.posts_array[idx]],
+            allow_delete: false,
+            show_time: true
+          }, function(el) {});
+        }
+      });
+      return $($(".c_date")[0]).trigger("click");
+    });
+  };
+
   FEED.prototype.get_date = function(time) {
     var dateObj, day, month, year;
     dateObj = new Date(time);
-    month = dateObj.getUTCMonth();
-    day = dateObj.getUTCDate();
+    month = dateObj.getUTCMonth() + 1;
+    day = dateObj.getUTCDate() - 1;
     year = dateObj.getUTCFullYear();
     return year + " / " + month + " / " + day;
+  };
+
+  FEED.prototype.get_current_month = function() {
+    var dateObj, that;
+    that = this;
+    dateObj = new Date();
+    return dateObj.getUTCMonth() + 1;
   };
 
   FEED.prototype.render_previous_activity = function() {
@@ -119,19 +177,18 @@ FEED = (function() {
         $("#reflection_wrapper").hide();
         $("#done_today").hide();
       }
-      if (posts_array.length !== 0 && posts_array[0].time === that.get_date(new Date())) {
-        $("#image_upload_wrapper").hide();
-        $("#reflection_wrapper").hide();
-        $("#done_today").show();
-      }
+      that.model.posts_array = posts_array;
       return BCA.ui.render_rewrite("previous_activities", "module_post", {
-        posts: posts_array
+        posts: posts_array,
+        allow_delete: true,
+        show_time: true
       }, function(el) {
-        return $(".trash_post").unbind().click(function(e) {
+        $(".trash_post").unbind().click(function(e) {
           if (confirm("Are you sure to delete this post?")) {
             return BCA.db_user_uploads.child($(e.target).data("id")).remove();
           }
         });
+        return that.render_cal(that.get_current_month());
       });
     });
   };
@@ -235,13 +292,14 @@ SETUP = (function() {
     }
     return BCA.ui.render_rewrite(null, "page_setup", that.model, function(el) {
       $("#setup_button").unbind().click(function() {
-        var my_own_task;
+        var g, my_own_task;
         my_own_task = $("#my_own_task").val().trim();
         if (my_own_task.length < 5) {
           return alert("Your own task is too short!");
         } else {
+          g = my_own_task;
           return BCA.db_user_tasks.set({
-            goal: my_own_task,
+            goal: g,
             type: "self"
           }, function() {
             BCA.fb_user.task = g;

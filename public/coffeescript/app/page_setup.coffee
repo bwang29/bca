@@ -16,8 +16,9 @@ class SETUP
         if my_own_task.length < 5
           alert("Your own task is too short!")
         else
+          g = my_own_task
           BCA.db_user_tasks.set
-            goal: my_own_task
+            goal: g
             type: "self"
           , ()->
             BCA.fb_user.task = g

@@ -2,7 +2,7 @@ this["bca_templates"] = this["bca_templates"] || {};
 
 this["bca_templates"]["jade/module_post"] = function anonymous(locals) {
 var buf = [];
-var locals_ = (locals || {}),posts = locals_.posts;// iterate posts
+var locals_ = (locals || {}),posts = locals_.posts,show_time = locals_.show_time,allow_delete = locals_.allow_delete;// iterate posts
 ;(function(){
   var $$obj = posts;
   if ('number' == typeof $$obj.length) {
@@ -13,13 +13,22 @@ var locals_ = (locals || {}),posts = locals_.posts;// iterate posts
 buf.push("<div class=\"post_wrapper\">");
 if ( post.url)
 {
-buf.push("<div" + (jade.attrs({ 'style':("background-image:url("+ post.url+ ")"), "class": [('post')] }, {"style":true})) + "></div>");
+buf.push("<div" + (jade.attrs({ 'style':("background-image:url("+ post.url+ ")"), "class": [('post')] }, {"style":true})) + "></div><div class=\"post_frame\"></div>");
 }
 else
 {
 buf.push("<div class=\"reflect\">" + (jade.escape(null == (jade.interp = post.reflect) ? "" : jade.interp)) + "</div>");
 }
-buf.push("<div class=\"time\">" + (jade.escape(null == (jade.interp = post.time) ? "" : jade.interp)) + "<div" + (jade.attrs({ 'data-id':(post.id), "class": [('trash_post')] }, {"data-id":true})) + "><i" + (jade.attrs({ 'data-id':(post.id), "class": [('fa'),('fa-trash-o')] }, {"data-id":true})) + "></i></div></div><div class=\"post_frame\"></div></div>");
+if ( show_time)
+{
+buf.push("<div class=\"time\">" + (jade.escape(null == (jade.interp = post.time) ? "" : jade.interp)));
+if ( allow_delete)
+{
+buf.push("<div" + (jade.attrs({ 'data-id':(post.id), "class": [('trash_post')] }, {"data-id":true})) + "><i" + (jade.attrs({ 'data-id':(post.id), "class": [('fa'),('fa-trash-o')] }, {"data-id":true})) + "></i></div>");
+}
+buf.push("</div>");
+}
+buf.push("</div>");
     }
 
   } else {
@@ -30,13 +39,22 @@ buf.push("<div class=\"time\">" + (jade.escape(null == (jade.interp = post.time)
 buf.push("<div class=\"post_wrapper\">");
 if ( post.url)
 {
-buf.push("<div" + (jade.attrs({ 'style':("background-image:url("+ post.url+ ")"), "class": [('post')] }, {"style":true})) + "></div>");
+buf.push("<div" + (jade.attrs({ 'style':("background-image:url("+ post.url+ ")"), "class": [('post')] }, {"style":true})) + "></div><div class=\"post_frame\"></div>");
 }
 else
 {
 buf.push("<div class=\"reflect\">" + (jade.escape(null == (jade.interp = post.reflect) ? "" : jade.interp)) + "</div>");
 }
-buf.push("<div class=\"time\">" + (jade.escape(null == (jade.interp = post.time) ? "" : jade.interp)) + "<div" + (jade.attrs({ 'data-id':(post.id), "class": [('trash_post')] }, {"data-id":true})) + "><i" + (jade.attrs({ 'data-id':(post.id), "class": [('fa'),('fa-trash-o')] }, {"data-id":true})) + "></i></div></div><div class=\"post_frame\"></div></div>");
+if ( show_time)
+{
+buf.push("<div class=\"time\">" + (jade.escape(null == (jade.interp = post.time) ? "" : jade.interp)));
+if ( allow_delete)
+{
+buf.push("<div" + (jade.attrs({ 'data-id':(post.id), "class": [('trash_post')] }, {"data-id":true})) + "><i" + (jade.attrs({ 'data-id':(post.id), "class": [('fa'),('fa-trash-o')] }, {"data-id":true})) + "></i></div>");
+}
+buf.push("</div>");
+}
+buf.push("</div>");
     }
 
   }
@@ -95,7 +113,7 @@ var buf = [];
 
 this["bca_templates"]["jade/page_feed"] = function anonymous(locals) {
 var buf = [];
-var locals_ = (locals || {}),fb_user = locals_.fb_user,today = locals_.today;buf.push("<center><div id=\"user_info\"><div class=\"name\">" + (jade.escape(null == (jade.interp = fb_user.name) ? "" : jade.interp)) + "</div><div class=\"task\">" + (jade.escape(null == (jade.interp = fb_user.task) ? "" : jade.interp)) + "</div></div></center><center><div id=\"reflection_wrapper\"><h2>" + (jade.escape(null == (jade.interp = today) ? "" : jade.interp)) + "</h2><center><textarea id=\"my_reflection\" placeholder=\"Time to write some reflection for your progress in the past few days : )\"></textarea><div id=\"submit_reflection\" class=\"button\">Submit</div></center></div></center><center><div id=\"image_upload_wrapper\"><h2>" + (jade.escape(null == (jade.interp = today) ? "" : jade.interp)) + "</h2><div class=\"instr\">Time to upload an image for your task : )</div><input id=\"jq_image_upload\" type=\"file\" name=\"file\"/><div id=\"image_upload_icon\"><i class=\"fa fa-upload\"></i><br/><div id=\"image_upload_progress\"></div></div></div></center><center><div id=\"done_today\"><h2>You've done today's post!</h2></div></center><div id=\"previous_activities\"></div>");;return buf.join("");
+var locals_ = (locals || {}),fb_user = locals_.fb_user,today = locals_.today;buf.push("<center><div id=\"user_info\"><div class=\"name\">" + (jade.escape(null == (jade.interp = fb_user.name) ? "" : jade.interp)) + "</div><div class=\"task\">" + (jade.escape(null == (jade.interp = fb_user.task) ? "" : jade.interp)) + "</div></div></center><div id=\"calendar_view\"><div id=\"calendar\"></div><div id=\"preview\"></div></div><center><div id=\"reflection_wrapper\"><h2>" + (jade.escape(null == (jade.interp = today) ? "" : jade.interp)) + "</h2><center><textarea id=\"my_reflection\" placeholder=\"Time to write some reflection for your progress in the past few days : )\"></textarea><div id=\"submit_reflection\" class=\"button\">Submit</div></center></div></center><center><div id=\"image_upload_wrapper\"><h2>" + (jade.escape(null == (jade.interp = today) ? "" : jade.interp)) + "</h2><div class=\"instr\">Time to upload an image for your task : )</div><input id=\"jq_image_upload\" type=\"file\" name=\"file\"/><div id=\"image_upload_icon\"><i class=\"fa fa-upload\"></i><br/><div id=\"image_upload_progress\"></div></div></div></center><center><div id=\"done_today\"><h2>You've done today's post!</h2></div></center><div id=\"previous_activities\"></div>");;return buf.join("");
 };
 
 this["bca_templates"]["jade/page_home"] = function anonymous(locals) {

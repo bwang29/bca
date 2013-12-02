@@ -17,6 +17,57 @@ UI = (function() {
     hello: function() {}
   };
 
+  UI.prototype.make_cal = function(month) {
+    var calendarTable, cmonth, current, day, dayAmount, dayNames, i, monthNames, padding, prevMonth, tempDate, tempMonth, tempweekday, tempweekday2, testing, totalDays, totalFeb, year;
+    padding = "";
+    totalFeb = "";
+    i = 1;
+    testing = "";
+    current = new Date();
+    cmonth = current.getMonth();
+    day = current.getDate();
+    year = current.getFullYear();
+    tempMonth = month + 1;
+    prevMonth = month - 1;
+    if (month === 1) {
+      if ((year % 100 !== 0) && (year % 4 === 0) || (year % 400 === 0)) {
+        totalFeb = 29;
+      } else {
+        totalFeb = 28;
+      }
+    }
+    monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday"];
+    totalDays = ["31", "" + totalFeb + "", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"];
+    tempDate = new Date(tempMonth + " 1 ," + year);
+    tempweekday = tempDate.getDay();
+    tempweekday2 = tempweekday;
+    dayAmount = totalDays[month];
+    while (tempweekday > 0) {
+      padding += "<td class='premonth'></td>";
+      tempweekday--;
+    }
+    while (i <= dayAmount) {
+      if (tempweekday2 > 6) {
+        tempweekday2 = 0;
+        padding += "</tr><tr>";
+      }
+      if (i === day && month === cmonth) {
+        padding += "<td class='currentday c_date d_" + (month + 1) + "_" + i + "'><div>" + i + "</div></td>";
+      } else {
+        padding += "<td class='currentmonth c_date d_" + (month + 1) + "_" + i + "'><div>" + i + "</div></td>";
+      }
+      tempweekday2++;
+      i++;
+    }
+    calendarTable = "<table class='calendar'> <tr class='header'><th colspan='7'><i class='prev_month fa fa-arrow-circle-o-left'></i>" + monthNames[month] + " " + year + "<i class='next_month fa fa-arrow-circle-o-right'></i></th></tr>";
+    calendarTable += "<tr class='weekdays'>  <td>Sun</td>  <td>Mon</td> <td>Tues</td> <td>Wed</td> <td>Thurs</td> <td>Fri</td> <td>Sat</td> </tr>";
+    calendarTable += "<tr>";
+    calendarTable += padding;
+    calendarTable += "</tr></table>";
+    return calendarTable;
+  };
+
   UI.prototype.gen_user_name = function() {
     var insult_tool_kit;
     insult_tool_kit = [["artless", "bawdy", "beslubbering", "bootless", "churlish", "cockered", "clouted", "craven", "currish", "dankish", "dissembling", "droning", "errant", "fawning", "fobbing", "froward", "frothy", "gleeking", "goatish", "gorbellied", "impertinent", "infectious", "jarring", "loggerheaded", "lumpish", "mammering", "mangled", "mewling", "paunchy", "pribbling", "puking", "puny", "qualling", "rank", "reeky", "roguish", "ruttish", "saucy", "spleeny", "spongy", "surly", "tottering", "unmuzzled", "vain", "venomed", "villainous", "warped", "wayward", "weedy", "yeasty"], ["base-court", "bat-fowling", "beef-witted", "beetle-headed", "boil-brained", "clapper-clawed", "clay-brained", "common-kissing", "crook-pated", "dismal-dreaming", "dizzy-eyed", "doghearted", "dread-bolted", "earth-vexing", "elf-skinned", "fat-kidneyed", "fen-sucked", "flap-mouthed", "fly-bitten", "folly-fallen", "fool-born", "full-gorged", "guts-griping", "half-faced", "hasty-witted", "hedge-born", "hell-hated", "idle-headed", "ill-breeding", "ill-nurtured", "knotty-pated", "milk-livered", "motley-minded", "onion-eyed", "plume-plucked", "pottle-deep", "pox-marked", "reeling-ripe", "rough-hewn", "rude-growing", "rump-fed", "shard-borne", "sheep-biting", "spur-galled", "swag-bellied", "tardy-gaited", "tickle-brained", "toad-spotted", "unchin-snouted", "weather-bitten"], ["apple-john", "baggage", "barnacle", "bladder", "boar-pig", "bugbear", "bum-bailey", "canker-blossom", "clack-dish", "clotpole", "coxcomb", "codpiece", "death-token", "dewberry", "flap-dragon", "flax-wench", "flirt-gill", "foot-licker", "fustilarian", "giglet", "gudgeon", "haggard", "harpy", "hedge-pig", "horn-beast", "hugger-mugger", "joithead", "lewdster", "lout", "maggot-pie", "malt-worm", "mammet", "measle", "minnow", "miscreant", "moldwarp", "mumble-news", "nut-hook", "pigeon-egg", "pignut", "puttock", "pumpion", "ratsbane", "scut", "skainsmate", "strumpet", "varlot", "vassal", "whey-face", "wagtail"]];

@@ -16,6 +16,6 @@ class ALL
 
       posts_array.sort (a,b) ->
         b.time - a.time
-      BCA.ui.render_rewrite $("body"), "module_post_all", {posts:posts_array}, (el) =>
+      BCA.ui.render_rewrite $("body"), "module_post", {posts:posts_array,allow_delete:false, show_time:false}, (el) =>
 
     return this

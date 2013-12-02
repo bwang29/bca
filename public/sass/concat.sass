@@ -20,6 +20,12 @@ $font_sans_pro: 'Source+Sans+Pro',sans-serif
   -o-transition: $transition-property $transition-time $method
   transition: $transition-property $transition-time $method
 
+@mixin rounded($radius: 3px)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  border-radius: $radius
+
+
 @mixin color_transition($color-from, $color-to)
   // @include transition(0.1s)
   color: $color-from
@@ -58,13 +64,14 @@ div
 
 body
   font-family: $font_sans
-  background: #292929
+  background-color: #292929
+  background-image: url("/img/tweed.png")
   color: #efefef
   padding: 0
   margin: 0
 
 i
-  margin-right: 10px
+  margin: 0 10px
 
 textarea
   border: none
@@ -86,20 +93,20 @@ textarea
     background-repeat: no-repeat
     background-size: cover
     position: absolute
-    width: 500px
-    height: 500px
+    width: 440px
+    height: 440px
     top: 0
     left: 0
-  width: 500px
-  height: 500px
+  width: 440px
   margin: 50px auto
   .post
-    width: 500px
-    height: 500px
+    width: 440px
+    height: 440px
     background-size: cover
     background-position: center
   .reflect
-    padding: 60px
+    border-top: 2px solid #aaa
+    padding: 60px 40px 80px 40px
     font-size: 19px
     font-family: $font_serif
   .time
@@ -136,14 +143,15 @@ textarea
 #user_info
   .name
     color: $clr_lime_blue
-    font-size: 30px
+    font-size: 40px
     margin: 5px 0
   .task
-    font-size: 15px
+    font-size: 20px
     margin: 5px 0
 
 #reflection_wrapper
-  border: 1px solid $clr_grey2
+  border: 2px dashed $clr_grey2
+  background-color: rgba(0,0,0,0.1)
   margin: 20px auto 0 auto
   width: 395px
   height: 395px
@@ -166,9 +174,10 @@ textarea
   margin: 20px auto 0 auto
   width: 395px
   height: 395px
+  background-color: rgba(0,0,0,0.1)
   background-size: cover
   background-position: center
-  border: 1px solid $clr_grey2
+  border: 2px dashed $clr_grey2
   input
     opacity: 0
     height: 395px
@@ -180,8 +189,8 @@ textarea
   #image_upload_icon
     pointer-events: none
     position: absolute
-    top: 45%
-    left: 45%
+    top: 46%
+    left: 44%
     i
       font-size: 60px
       pointer-events: none
@@ -191,6 +200,61 @@ textarea
 #done_today
   padding-top: 20px
 #previous_activities
+#calendar_view
+  width: 1080px
+  margin: 30px auto
+  #calendar
+    width: 630px
+    vertical-align: top
+    display: inline-block
+    .calendar
+      .prev_month
+        cursor: pointer
+        opacity: 0.8
+        &:hover
+          opacity: 1.0
+      .next_month
+        cursor: pointer
+        opacity: 0.8
+        &:hover
+          opacity: 1.0
+      .currentday
+        color: $clr_red
+      .header
+        height: 40px
+        font-size: 25px
+        color: #888
+      .weekdays
+        text-align: center
+        height: 50px
+        color: #666
+      .currentmonth, .currentday
+        height: 90px
+        width: 90px
+        div
+          @include transition(0.1s)
+          margin: 0 auto
+          padding: 8px
+          @include rounded(10px)
+          border: 1px solid #292929
+          width: 82px
+          height: 82px
+          background-color: rgba(0,0,0,0.1)
+          vertical-align: top
+          background-size: cover
+          background-repeat: no-repeat
+          opacity: 0.8
+          cursor: pointer
+          &:hover
+            opacity: 1.0
+
+  #preview
+    width: 450px
+    padding-left: 10pxs
+    vertical-align: top
+    display: inline-block
+
+
 
 #home_wrapper
   z-index: 10

@@ -1,10 +1,12 @@
 - each post in posts
-    .post_wrapper
-      if post.url
-        .post(style= "background-image:url("+ post.url+ ")")
-      else
-        .reflect= post.reflect
-      .time= post.time
-        .trash_post(data-id= post.id)
-          i.fa.fa-trash-o(data-id= post.id)
+  .post_wrapper
+    if post.url
+      .post(style= "background-image:url("+ post.url+ ")")
       .post_frame
+    else
+      .reflect= post.reflect
+    if show_time
+      .time= post.time
+        if allow_delete
+          .trash_post(data-id= post.id)
+            i.fa.fa-trash-o(data-id= post.id)
