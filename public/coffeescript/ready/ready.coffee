@@ -45,7 +45,7 @@ BCA.rt.bind("runRoute", (request) ->
   BCA.db_uploads = new Firebase('https://bca.firebaseIO.com/uploads')
   BCA.db_tasks = new Firebase('https://bca.firebaseIO.com/tasks')
 
-  BCA.ui.render_rewrite $("body"), "wrapper", {}, (el) =>
+  BCA.ui.render_append $("body"), "wrapper", {}, (el) =>
     BCA.rt.logger.info "BCA wrapper rendered"
     $("#login_button").unbind().click ()->
       BCA.auth.login "facebook" ,

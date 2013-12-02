@@ -35,7 +35,7 @@ BCA.rt.bind("runRoute", function(request) {}).bind("routeNotFound", function(req
   BCA.db_users = new Firebase('https://bca.firebaseIO.com/users');
   BCA.db_uploads = new Firebase('https://bca.firebaseIO.com/uploads');
   BCA.db_tasks = new Firebase('https://bca.firebaseIO.com/tasks');
-  return BCA.ui.render_rewrite($("body"), "wrapper", {}, function(el) {
+  return BCA.ui.render_append($("body"), "wrapper", {}, function(el) {
     BCA.rt.logger.info("BCA wrapper rendered");
     $("#login_button").unbind().click(function() {
       return BCA.auth.login("facebook", {
