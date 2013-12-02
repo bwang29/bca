@@ -2,26 +2,30 @@ center
   #user_info
     .name= fb_user.name
     .task= fb_user.task
-#calendar_view
-  #calendar
-  #preview
+#calendar_view_wrapper
+  #calendar_view
+    #calendar
+    #preview
 center
-  #reflection_wrapper
-    h2= today
-    center
-      textarea#my_reflection(placeholder="Time to write some reflection for your progress in the past few days : )")
-      #submit_reflection.button Submit
+  #reflection_wrapper_bg
+    #reflection_wrapper
+      h2= today
+      center
+        textarea#my_reflection(placeholder="Time to write some reflection for your progress in the past few days : )")
+        #submit_reflection.button Submit
 center
-  #image_upload_wrapper
-    h2= today
-    .instr Time to upload an image for your task : )
-    input#jq_image_upload(type="file",name="file")
-    #image_upload_icon
-      i.fa.fa-upload
-      br
-      #image_upload_progress
+  #image_upload_wrapper_bg
+    #image_upload_wrapper
+      h2= today
+      .instr Time to upload an image for your task : )
+      input#jq_image_upload(type="file",name="file")
+      #image_upload_icon
+        i.fa.fa-upload
+        br
+        #image_upload_progress
 center
   #done_today
     h2 You've done today's post!
-#previous_activities
+center
+  #previous_activities
 

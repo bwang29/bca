@@ -28,15 +28,16 @@ ALL = (function() {
           posts_array.push(v2);
         }
       }
-      console.log(posts_array);
       posts_array.sort(function(a, b) {
         return b.time - a.time;
       });
-      return BCA.ui.render_rewrite($("body"), "module_post", {
-        posts: posts_array,
-        allow_delete: false,
-        show_time: false
-      }, function(el) {});
+      return BCA.ui.render_rewrite(null, "page_all", that.model, function(el) {
+        return BCA.ui.render_rewrite("all_posts", "module_post", {
+          posts: posts_array,
+          allow_delete: false,
+          show_time: false
+        }, function(el) {});
+      });
     });
     return this;
   };
@@ -120,6 +121,9 @@ FEED = (function() {
           ctr += 1;
         }
       }
+      if (that.model.posts_array.length === 0) {
+        $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>");
+      }
       $(".c_date").unbind().click(function() {
         var _this = this;
         idx = $(this).data('idx');
@@ -168,13 +172,13 @@ FEED = (function() {
       }
       posts_array = posts_array.reverse();
       if (posts_array.length >= 3 && posts_array[0].url !== "" && posts_array[1].url !== "" && posts_array[2].url !== "") {
-        $("#image_upload_wrapper").hide();
-        $("#reflection_wrapper").show();
+        $("#image_upload_wrapper_bg").hide();
+        $("#reflection_wrapper_bg").show();
         $("#done_today").hide();
         $("#reflection_wrapper textarea").focus();
       } else {
-        $("#image_upload_wrapper").show();
-        $("#reflection_wrapper").hide();
+        $("#image_upload_wrapper_bg").show();
+        $("#reflection_wrapper_bg").hide();
         $("#done_today").hide();
       }
       that.model.posts_array = posts_array;

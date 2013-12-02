@@ -45,6 +45,8 @@ class FEED
           $(".d_#{c_month}_#{c_date} div").css("background-image","url("+p.url+")")
           $(".d_#{c_month}_#{c_date}").data("idx",idx)
           ctr += 1
+      if that.model.posts_array.length == 0
+        $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>")
       $(".c_date").unbind().click ()->
         idx = $(this).data('idx')
         if typeof idx != "undefined"
@@ -74,19 +76,19 @@ class FEED
         posts_array.push v
       posts_array = posts_array.reverse()
       if posts_array.length >=3 && posts_array[0].url != "" && posts_array[1].url != "" && posts_array[2].url != ""
-        $("#image_upload_wrapper").hide()
-        $("#reflection_wrapper").show()
+        $("#image_upload_wrapper_bg").hide()
+        $("#reflection_wrapper_bg").show()
         $("#done_today").hide()
         $("#reflection_wrapper textarea").focus()
       else
-        $("#image_upload_wrapper").show()
-        $("#reflection_wrapper").hide()
+        $("#image_upload_wrapper_bg").show()
+        $("#reflection_wrapper_bg").hide()
         $("#done_today").hide()
 
       that.model.posts_array = posts_array
       # if posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
-      #   $("#image_upload_wrapper").hide()
-      #   $("#reflection_wrapper").hide()
+      #   $("#image_upload_wrapper_bg").hide()
+      #   $("#reflection_wrapper_bg").hide()
       #   $("#done_today").show()
 
       BCA.ui.render_rewrite "previous_activities", "module_post", {posts:posts_array,allow_delete:true, show_time:true}, (el) =>

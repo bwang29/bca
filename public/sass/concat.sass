@@ -87,6 +87,9 @@ textarea
 
 
 .post_wrapper
+  display: inline-block
+  vertical-align: middle
+  margin: 20px
   position: relative
   .post_frame
     background-image: url("/img/post_frame.png")
@@ -98,14 +101,12 @@ textarea
     top: 0
     left: 0
   width: 440px
-  margin: 50px auto
   .post
     width: 440px
     height: 440px
     background-size: cover
     background-position: center
   .reflect
-    border-top: 2px solid #aaa
     padding: 60px 40px 80px 40px
     font-size: 19px
     font-family: $font_serif
@@ -141,6 +142,7 @@ textarea
     font-family: $font_serif
 
 #user_info
+  padding: 20px 0
   .name
     color: $clr_lime_blue
     font-size: 40px
@@ -148,11 +150,16 @@ textarea
   .task
     font-size: 20px
     margin: 5px 0
-
+#reflection_wrapper_bg
+  background: rgba(66,44,55,0.5)
+  padding: 20px 0
+#image_upload_wrapper_bg
+  background: rgba(33,44,55,0.5)
+  padding: 20px 0
 #reflection_wrapper
   border: 2px dashed $clr_grey2
   background-color: rgba(0,0,0,0.1)
-  margin: 20px auto 0 auto
+  margin: 20px auto
   width: 395px
   height: 395px
   textarea
@@ -171,7 +178,7 @@ textarea
     color: $clr_green
     border-color: $clr_green
   position: relative
-  margin: 20px auto 0 auto
+  margin: 20px auto
   width: 395px
   height: 395px
   background-color: rgba(0,0,0,0.1)
@@ -200,59 +207,62 @@ textarea
 #done_today
   padding-top: 20px
 #previous_activities
-#calendar_view
-  width: 1080px
-  margin: 30px auto
-  #calendar
-    width: 630px
-    vertical-align: top
-    display: inline-block
-    .calendar
-      .prev_month
-        cursor: pointer
-        opacity: 0.8
-        &:hover
-          opacity: 1.0
-      .next_month
-        cursor: pointer
-        opacity: 0.8
-        &:hover
-          opacity: 1.0
-      .currentday
-        color: $clr_red
-      .header
-        height: 40px
-        font-size: 25px
-        color: #888
-      .weekdays
-        text-align: center
-        height: 50px
-        color: #666
-      .currentmonth, .currentday
-        height: 90px
-        width: 90px
-        div
-          @include transition(0.1s)
-          margin: 0 auto
-          padding: 8px
-          @include rounded(10px)
-          border: 1px solid #292929
-          width: 82px
-          height: 82px
-          background-color: rgba(0,0,0,0.1)
-          vertical-align: top
-          background-size: cover
-          background-repeat: no-repeat
-          opacity: 0.8
+#calendar_view_wrapper
+  background: rgba(255,255,255,0.1)
+  padding: 5px 0
+  #calendar_view
+    width: 1080px
+    margin: 30px auto
+    #calendar
+      width: 630px
+      vertical-align: top
+      display: inline-block
+      .calendar
+        .prev_month
           cursor: pointer
+          opacity: 0.8
           &:hover
             opacity: 1.0
+        .next_month
+          cursor: pointer
+          opacity: 0.8
+          &:hover
+            opacity: 1.0
+        .currentday
+          color: $clr_red
+        .header
+          height: 40px
+          font-size: 25px
+          color: #888
+        .weekdays
+          text-align: center
+          height: 50px
+          color: #666
+        .currentmonth, .currentday
+          height: 90px
+          width: 90px
+          div
+            @include transition(0.1s)
+            margin: 0 auto
+            padding: 8px
+            @include rounded(10px)
+            border: 1px solid #292929
+            width: 82px
+            height: 82px
+            background-color: rgba(0,0,0,0.1)
+            vertical-align: top
+            background-size: cover
+            background-repeat: no-repeat
+            opacity: 0.8
+            cursor: pointer
+            &:hover
+              opacity: 1.0
 
-  #preview
-    width: 450px
-    padding-left: 10pxs
-    vertical-align: top
-    display: inline-block
+    #preview
+      width: 450px
+      padding-left: 10pxs
+      vertical-align: top
+      display: inline-block
 
 
 
@@ -290,7 +300,8 @@ textarea
   .task_setup_guide
     color: $clr_lime_blue
   #option_container
-    background: #333
+    background: rgba(255,255,255,0.1)
+    padding: 10px 0
     margin: 30px 0
     .title
       font-size: 20px
