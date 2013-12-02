@@ -7,6 +7,9 @@ BCA.rt = Davis(function() {
   this.get('/', function(req) {
     return (new HOME).init();
   });
+  this.get('/u/:uid', function(req) {
+    return (new FEED).init(req.params["uid"]);
+  });
   this.get('/feed', function(req) {
     return (new FEED).init();
   });

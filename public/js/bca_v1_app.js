@@ -55,7 +55,8 @@ FEED = (function() {
     dummy: "",
     fb_user: null,
     today: "",
-    posts_array: null
+    posts_array: null,
+    has_access: false
   };
 
   FEED.prototype.bind_submit_image = function() {
@@ -155,12 +156,12 @@ FEED = (function() {
     return dateObj.getUTCMonth() + 1;
   };
 
-  FEED.prototype.render_previous_activity = function() {
+  FEED.prototype.render_previous_activity = function(has_access) {
     var that;
     that = this;
     BCA.db_user_uploads = new Firebase('https://bca.firebaseIO.com/uploads/' + BCA.fb_user.id);
     return BCA.db_user_uploads.on("value", function(snapshot) {
-      var k, posts_array, posts_hash, v,
+      var allow_delete, k, posts_array, posts_hash, v,
         _this = this;
       posts_hash = snapshot.val();
       posts_array = [];
@@ -171,20 +172,30 @@ FEED = (function() {
         posts_array.push(v);
       }
       posts_array = posts_array.reverse();
-      if (posts_array.length >= 3 && posts_array[0].url !== "" && posts_array[1].url !== "" && posts_array[2].url !== "") {
+      if (has_access && posts_array.length >= 3 && posts_array[0].url !== "" && posts_array[1].url !== "" && posts_array[2].url !== "") {
         $("#image_upload_wrapper_bg").hide();
         $("#reflection_wrapper_bg").show();
         $("#done_today").hide();
         $("#reflection_wrapper textarea").focus();
       } else {
-        $("#image_upload_wrapper_bg").show();
-        $("#reflection_wrapper_bg").hide();
-        $("#done_today").hide();
+        if (!has_access) {
+          $("#image_upload_wrapper_bg").hide();
+          $("#reflection_wrapper_bg").hide();
+          $("#done_today").hide();
+        } else {
+          $("#image_upload_wrapper_bg").show();
+          $("#reflection_wrapper_bg").hide();
+          $("#done_today").hide();
+        }
       }
       that.model.posts_array = posts_array;
+      allow_delete = false;
+      if (has_access) {
+        allow_delete = true;
+      }
       return BCA.ui.render_rewrite("previous_activities", "module_post", {
         posts: posts_array,
-        allow_delete: true,
+        allow_delete: allow_delete,
         show_time: true
       }, function(el) {
         $(".trash_post").unbind().click(function(e) {
@@ -197,21 +208,44 @@ FEED = (function() {
     });
   };
 
-  FEED.prototype.init = function() {
+  FEED.prototype.render_views = function(has_access) {
     var that,
       _this = this;
     that = this;
-    if (!BCA.db_user_tasks || !BCA.fb_user) {
-      BCA.rt.route_to("");
-      return;
-    }
-    that.model.fb_user = BCA.fb_user;
-    that.model.today = that.get_date(new Date());
+    that.model.has_access = has_access;
     return BCA.ui.render_rewrite(null, "page_feed", that.model, function(el) {
-      that.bind_submit_reflection();
-      that.bind_submit_image();
-      return that.render_previous_activity();
+      if (has_access) {
+        that.bind_submit_reflection();
+        that.bind_submit_image();
+      }
+      return that.render_previous_activity(has_access);
     });
+  };
+
+  FEED.prototype.init = function(uid) {
+    var that, user_con;
+    that = this;
+    that.model.today = that.get_date(new Date());
+    if (uid) {
+      user_con = new Firebase("https://bca.firebaseIO.com/users/" + uid);
+      return user_con.once("value", function(snapshot) {
+        var tasks_con;
+        BCA.fb_user = snapshot.val();
+        tasks_con = new Firebase("https://bca.firebaseIO.com/tasks/" + uid);
+        return tasks_con.once("value", function(snapshot) {
+          BCA.fb_user.task = snapshot.val().goal;
+          that.model.fb_user = BCA.fb_user;
+          return that.render_views(false);
+        });
+      });
+    } else {
+      if (!BCA.db_user_tasks || !BCA.fb_user) {
+        BCA.rt.route_to("");
+        return;
+      }
+      that.model.fb_user = BCA.fb_user;
+      return that.render_views(true);
+    }
   };
 
   return FEED;

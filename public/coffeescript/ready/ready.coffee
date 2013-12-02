@@ -18,6 +18,8 @@ BCA.rt = Davis () ->
     this.generateRequestOnPageLoad = true
   this.get '/', (req) ->
     (new HOME).init()
+  this.get '/u/:uid', (req) ->
+    (new FEED).init(req.params["uid"])
   this.get '/feed', (req) ->
     (new FEED).init()
   this.get '/setup', (req) ->

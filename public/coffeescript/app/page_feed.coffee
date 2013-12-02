@@ -4,6 +4,7 @@ class FEED
     fb_user: null
     today: ""
     posts_array: null
+    has_access: false
   bind_submit_image: ()->
     BCA.ui.make_jq_img_upload "jq_image_upload","image_upload_wrapper","image_upload_progress", (img_url)->
       BCA.db_uploads.child(BCA.fb_user.id).push
@@ -64,7 +65,7 @@ class FEED
     that = this
     dateObj = new Date()
     return dateObj.getUTCMonth() + 1
-  render_previous_activity: ()->
+  render_previous_activity: (has_access)->
     that = this
     BCA.db_user_uploads = new Firebase('https://bca.firebaseIO.com/uploads/' + BCA.fb_user.id)
     BCA.db_user_uploads.on "value", (snapshot) ->
@@ -75,37 +76,61 @@ class FEED
         v.id = k
         posts_array.push v
       posts_array = posts_array.reverse()
-      if posts_array.length >=3 && posts_array[0].url != "" && posts_array[1].url != "" && posts_array[2].url != ""
+      if has_access && posts_array.length >=3 && posts_array[0].url != "" && posts_array[1].url != "" && posts_array[2].url != ""
         $("#image_upload_wrapper_bg").hide()
         $("#reflection_wrapper_bg").show()
         $("#done_today").hide()
         $("#reflection_wrapper textarea").focus()
       else
-        $("#image_upload_wrapper_bg").show()
-        $("#reflection_wrapper_bg").hide()
-        $("#done_today").hide()
+        if !has_access
+          $("#image_upload_wrapper_bg").hide()
+          $("#reflection_wrapper_bg").hide()
+          $("#done_today").hide()
+        else
+          $("#image_upload_wrapper_bg").show()
+          $("#reflection_wrapper_bg").hide()
+          $("#done_today").hide()
 
       that.model.posts_array = posts_array
-      # if posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
+      # if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
       #   $("#image_upload_wrapper_bg").hide()
       #   $("#reflection_wrapper_bg").hide()
       #   $("#done_today").show()
 
-      BCA.ui.render_rewrite "previous_activities", "module_post", {posts:posts_array,allow_delete:true, show_time:true}, (el) =>
+      allow_delete = false
+      if has_access
+        allow_delete = true
+
+      BCA.ui.render_rewrite "previous_activities", "module_post", {posts:posts_array,allow_delete:allow_delete, show_time:true}, (el) =>
         $(".trash_post").unbind().click (e)->
           if confirm("Are you sure to delete this post?")
             BCA.db_user_uploads.child($(e.target).data("id")).remove()
         that.render_cal(that.get_current_month())
-  init: ()->
+  render_views: (has_access)->
     that = this
-    if !BCA.db_user_tasks || !BCA.fb_user
-      BCA.rt.route_to ""
-      return
-    that.model.fb_user = BCA.fb_user
-    that.model.today = that.get_date(new Date())
+    that.model.has_access = has_access
     BCA.ui.render_rewrite null, "page_feed", that.model, (el) =>
-      that.bind_submit_reflection()
-      that.bind_submit_image()
-      that.render_previous_activity()
+      if has_access
+        that.bind_submit_reflection()
+        that.bind_submit_image()
+      that.render_previous_activity(has_access)
+  init: (uid)->
+    that = this
+    that.model.today = that.get_date(new Date())
+    if uid # for public view..
+      user_con = new Firebase("https://bca.firebaseIO.com/users/#{uid}")
+      user_con.once "value", (snapshot) ->
+        BCA.fb_user = snapshot.val()
+        tasks_con = new Firebase("https://bca.firebaseIO.com/tasks/#{uid}")
+        tasks_con.once "value", (snapshot) ->
+          BCA.fb_user.task = snapshot.val().goal
+          that.model.fb_user = BCA.fb_user
+          that.render_views(false)
+    else
+      if !BCA.db_user_tasks || !BCA.fb_user
+        BCA.rt.route_to ""
+        return
+      that.model.fb_user = BCA.fb_user
+      that.render_views(true)
 
 
