@@ -53,12 +53,10 @@ BCA.rt.bind("runRoute", (request) ->
       BCA.auth.logout()
       BCA.rt.route_to ""
     $("#restart_button").unbind().click ()->
-      r = confirm("Are you sure to restart? All progress will be lost!")
-      if r
+      if confirm("Are you sure to restart? All progress will be lost!")
         BCA.db_user_uploads.remove()
         BCA.db_user_tasks.remove()
-        BCA.auth.logout()
-        BCA.rt.route_to ""
+        BCA.rt.route_to "setup"
 
 ).bind "stop", ->
   BCA.rt.logger.info "BCA stopped"

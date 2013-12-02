@@ -45,13 +45,10 @@ BCA.rt.bind("runRoute", function(request) {}).bind("routeNotFound", function(req
       return BCA.rt.route_to("");
     });
     return $("#restart_button").unbind().click(function() {
-      var r;
-      r = confirm("Are you sure to restart? All progress will be lost!");
-      if (r) {
+      if (confirm("Are you sure to restart? All progress will be lost!")) {
         BCA.db_user_uploads.remove();
         BCA.db_user_tasks.remove();
-        BCA.auth.logout();
-        return BCA.rt.route_to("");
+        return BCA.rt.route_to("setup");
       }
     });
   });

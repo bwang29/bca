@@ -1,15 +1,20 @@
 #choose_task
-  center
-    h2 setup
-  #own_task_wrapper
-    #own_task
-      h3 Choose my own task
-      textarea#my_own_task()
-  #given_task_wrapper
-    #given_task
-      h3 Or use preset tasks
-      - each task in preset_tasks
-        .preset_task= task
-  center
-    #setup_button
-      .button Done
+  .task_setup_title
+    h2 Define your daily creativity task
+  .task_setup_guide
+    | Each day, you can upload an image of the creativity task you want to do. You'll be prompted to write a reflection every 3 days. You can either define your own task (right) or use one of our suggested ones (left). You have the option to start a new task if you change your mind anytime, but you'll lose all previous records with the option to export them.
+
+  #option_container
+    #given_task_wrapper
+      #given_task
+        .title Our suggested tasks
+        .instr (Click to continue)
+        - each task in preset_tasks
+          .preset_task= task
+    #own_task_wrapper
+      #own_task
+        .title Choose my own task
+        textarea#my_own_task()
+      #setup_button
+        .button.grey Done
+

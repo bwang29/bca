@@ -1,20 +1,32 @@
 .post_wrapper
-  margin: 20px 0
-  padding: 20px 0
-  border-bottom: 1px solid $clr_grey1
-  background: #efefef
+  position: relative
+  .post_frame
+    background-image: url("/img/post_frame.png")
+    background-repeat: no-repeat
+    background-size: cover
+    position: absolute
+    width: 500px
+    height: 500px
+    top: 0
+    left: 0
+  width: 500px
+  height: 500px
+  margin: 50px auto
   .post
-    width: 400px
-    height: 400px
-    margin: 20px auto
+    width: 500px
+    height: 500px
     background-size: cover
     background-position: center
   .reflect
-    padding: 20px
+    padding: 60px
     font-size: 19px
     font-family: $font_serif
   .time
     text-align: center
+    position: absolute
+    bottom: 30px
+    left: 30px
+    z-index: 100
   .trash_post
     margin-left: 10px
     display: inline-block

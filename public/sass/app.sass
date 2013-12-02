@@ -7,6 +7,7 @@ $clr_green: #2ecc71
 $clr_red: #e74c3c
 $clr_dark_green: #16a085
 $clr_dark_blue: #34495e
+$clr_lime_blue: #B6C6DB
 $font_sans: 'Muli', sans-serif
 $font_serif: 'Caudex', serif
 $font_dense: 'Roboto Condensed', sans-serif
@@ -25,21 +26,23 @@ $font_sans_pro: 'Source+Sans+Pro',sans-serif
   &:hover
     color: $color-to
 
-.hover_dark_blue_to_green
-  @include color_transition($clr_dark_blue, $clr_dark_green)
-  cursor: pointer
 a
-  @extend .hover_dark_blue_to_green
+  color: $clr_white
+  @include transition(0.1s)
+  opacity: 0.6
   text-decoration: none
+  cursor: pointer
+  &:hover
+    opacity: 1.0
 
 .button
+  @include transition(0.1s)
   background: $clr_green
-  padding: 6px 8px
+  padding: 8px 12px
   color: $clr_white
   display: inline-block
-  margin: 10px 0
   cursor: pointer
-  opacity: 0.8
+  opacity: 0.9
   &.grey
     background: $clr_grey1
   &.red
@@ -55,15 +58,23 @@ div
 
 body
   font-family: $font_sans
+  background: #292929
+  color: #efefef
+  padding: 0
+  margin: 0
+
+i
+  margin-right: 10px
 
 textarea
   border: none
-  border-bottom: 1px solid $clr_grey2
+  border-bottom: 1px solid $clr_grey1
   outline: none
   font-size: 16px
   line-height: 18px
   padding: 4px
   background: none
+  color: white
 
 
 

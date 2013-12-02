@@ -1,9 +1,10 @@
 class SETUP
   model:
     dummy: ""
-    preset_tasks: ["Take a photo a day","Eat a different food everyday"]
+    preset_tasks: ["Take a different path to work/school","Try a different food everyday","Take a picture of one single object"]
   init: ()->
     that = this
+    $("#restart_button").hide()
     if !BCA.db_user_tasks || !BCA.fb_user
       BCA.rt.route_to ""
       return
@@ -19,6 +20,8 @@ class SETUP
             goal: my_own_task
             type: "self"
           , ()->
+            BCA.fb_user.task = g
+            $("#restart_button").show()
             BCA.rt.route_to "feed"
 
       # bind the click for preset button
@@ -28,4 +31,6 @@ class SETUP
           goal: g
           type: "pre_set"
         , ()->
+          BCA.fb_user.task = g
+          $("#restart_button").show()
           BCA.rt.route_to "feed"

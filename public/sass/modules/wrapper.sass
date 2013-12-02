@@ -1,71 +1,29 @@
 #wrapper
-  width: 500px
   margin: 0 auto
-#login_button
-  display: inline-block
-#logout_button
-  display: inline-block
-#restart_button
-  display: inline-block
-
-#hello_msg
-  font-size: 25px
-  color: $clr_dark_blue
-  margin: 5px 0
-
-#reflection_wrapper
-  border: 1px solid $clr_grey2
-  margin: 20px auto 0 auto
-  width: 395px
-  height: 395px
-  textarea
-    width: 355px
-    height: 255px
-    border: none
-
-#image_upload_wrapper
-  cursor: pointer
-  &:hover
-    color: $clr_green
-    border-color: $clr_green
-  &:active
-    color: $clr_dark_green
-    border-color: $clr_dark_green
-  position: relative
-  margin: 20px auto 0 auto
-  width: 395px
-  height: 395px
-  background-size: cover
-  background-position: center
-  border: 1px solid $clr_grey2
-  input
-    opacity: 0
-    height: 395px
-    width: 395px
-    cursor: pointer
-  #image_upload_icon
-    pointer-events: none
-    position: absolute
-    top: 45%
-    left: 45%
-    i
-      font-size: 60px
-      pointer-events: none
-    #image_upload_progress
-      text-align: center
-
-#choose_task
-  padding-top: 30px
-  #own_task_wrapper
-    display: inline-block
+#login_panel
+  position: fixed
+  top: 0
+  right: 0
+  z-index: 1000
+  padding: 20px
+  background: none
+  display: none
+  text-align: right
+  #login_button
     vertical-align: top
-    width: 49%
-    #own_task
-      padding: 0 10px
-  #given_task_wrapper
     display: inline-block
+  #logout_button
     vertical-align: top
-    border-left: 1px solid $clr_grey2
-    width: 49%
-    #given_task
-      padding: 0 10px
+    display: inline-block
+  #restart_button
+    vertical-align: top
+    display: inline-block
+#container
+  margin-top: 80px
+#footer
+  z-index: 1000
+  position: fixed
+  bottom: 20px
+  right: 20px
+
+
