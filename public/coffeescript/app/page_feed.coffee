@@ -39,13 +39,20 @@ class FEED
       $(".next_month").unbind().click ()->
         that.render_cal(month + 1)
       ctr = 0
+      final_block = ""
       for p, idx in that.model.posts_array
         if p.url!=""
           c_month = parseInt(p.time.split('/')[1].trim())
           c_date = parseInt(p.time.split('/')[2].trim())+ctr
           $(".d_#{c_month}_#{c_date} div").css("background-image","url("+p.url+")")
           $(".d_#{c_month}_#{c_date}").data("idx",idx)
-          #ctr += 1# for demo only
+        else
+          c_month = parseInt(p.time.split('/')[1].trim())
+          c_date = parseInt(p.time.split('/')[2].trim())+ctr
+          $(".d_#{c_month}_#{c_date} div").text(p.reflect)
+          $(".d_#{c_month}_#{c_date}").data("idx",idx)
+        final_block = ".d_#{c_month}_#{c_date}"
+        ctr += 1# for demo only
       if that.model.posts_array.length == 0
         $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>")
       $(".c_date").unbind().click ()->
@@ -53,7 +60,7 @@ class FEED
         if typeof idx != "undefined"
           BCA.ui.render_rewrite "preview", "module_post", {posts:[that.model.posts_array[idx]],allow_delete:false, show_time:true}, (el) =>
             #
-      $($(".c_date")[0]).trigger("click")
+      $("#{final_block}").trigger("click")
 
   get_date: (time)->
     dateObj = new Date(time)
@@ -92,10 +99,10 @@ class FEED
           $("#done_today").hide()
 
       that.model.posts_array = posts_array
-      if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
-        $("#image_upload_wrapper_bg").hide()
-        $("#reflection_wrapper_bg").hide()
-        $("#done_today").show()
+      # if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
+      #   $("#image_upload_wrapper_bg").hide()
+      #   $("#reflection_wrapper_bg").hide()
+      #   $("#done_today").show()
 
       allow_delete = false
       if has_access

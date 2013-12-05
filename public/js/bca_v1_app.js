@@ -97,7 +97,7 @@ FEED = (function() {
     that = this;
     $("#calendar").html(BCA.ui.make_cal(month - 1));
     return BCA.ui.schedule(function() {
-      var c_date, c_month, ctr, idx, p, _i, _len, _ref;
+      var c_date, c_month, ctr, final_block, idx, p, _i, _len, _ref;
       if (month === 12) {
         $(".next_month").hide();
       }
@@ -111,6 +111,7 @@ FEED = (function() {
         return that.render_cal(month + 1);
       });
       ctr = 0;
+      final_block = "";
       _ref = that.model.posts_array;
       for (idx = _i = 0, _len = _ref.length; _i < _len; idx = ++_i) {
         p = _ref[idx];
@@ -119,7 +120,14 @@ FEED = (function() {
           c_date = parseInt(p.time.split('/')[2].trim()) + ctr;
           $(".d_" + c_month + "_" + c_date + " div").css("background-image", "url(" + p.url + ")");
           $(".d_" + c_month + "_" + c_date).data("idx", idx);
+        } else {
+          c_month = parseInt(p.time.split('/')[1].trim());
+          c_date = parseInt(p.time.split('/')[2].trim()) + ctr;
+          $(".d_" + c_month + "_" + c_date + " div").text(p.reflect);
+          $(".d_" + c_month + "_" + c_date).data("idx", idx);
         }
+        final_block = ".d_" + c_month + "_" + c_date;
+        ctr += 1;
       }
       if (that.model.posts_array.length === 0) {
         $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>");
@@ -135,7 +143,7 @@ FEED = (function() {
           }, function(el) {});
         }
       });
-      return $($(".c_date")[0]).trigger("click");
+      return $("" + final_block).trigger("click");
     });
   };
 
@@ -188,11 +196,6 @@ FEED = (function() {
         }
       }
       that.model.posts_array = posts_array;
-      if (has_access && posts_array.length !== 0 && posts_array[0].time === that.get_date(new Date())) {
-        $("#image_upload_wrapper_bg").hide();
-        $("#reflection_wrapper_bg").hide();
-        $("#done_today").show();
-      }
       allow_delete = false;
       if (has_access) {
         allow_delete = true;
