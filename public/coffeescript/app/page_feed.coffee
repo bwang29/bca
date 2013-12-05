@@ -127,11 +127,11 @@ class FEED
     that.model.today = that.get_date(new Date())
     that.model.current_url = document.URL
     if uid # for public view..
-      # change the title of the page
-      document.title = "#{BCA.fb_user.name}'s Creativity Calendar"
       user_con = new Firebase("https://bca.firebaseIO.com/users/#{uid}")
       user_con.once "value", (snapshot) ->
         BCA.fb_user = snapshot.val()
+        # change the title of the page
+        document.title = "#{BCA.fb_user.name}'s Creativity Calendar"
         tasks_con = new Firebase("https://bca.firebaseIO.com/tasks/#{uid}")
         tasks_con.once "value", (snapshot) ->
           BCA.fb_user.task = snapshot.val().goal

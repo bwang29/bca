@@ -240,11 +240,11 @@ FEED = (function() {
     that.model.today = that.get_date(new Date());
     that.model.current_url = document.URL;
     if (uid) {
-      document.title = "" + BCA.fb_user.name + "'s Creativity Calendar";
       user_con = new Firebase("https://bca.firebaseIO.com/users/" + uid);
       return user_con.once("value", function(snapshot) {
         var tasks_con;
         BCA.fb_user = snapshot.val();
+        document.title = "" + BCA.fb_user.name + "'s Creativity Calendar";
         tasks_con = new Firebase("https://bca.firebaseIO.com/tasks/" + uid);
         return tasks_con.once("value", function(snapshot) {
           BCA.fb_user.task = snapshot.val().goal;
