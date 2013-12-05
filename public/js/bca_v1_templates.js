@@ -113,9 +113,13 @@ buf.push("<center><h1>Everyone's Creativity Tasks</h1></center><center><div id=\
 
 this["bca_templates"]["jade/page_feed"] = function anonymous(locals) {
 var buf = [];
-var locals_ = (locals || {}),has_access = locals_.has_access,fb_user = locals_.fb_user,today = locals_.today;if ( has_access)
+var locals_ = (locals || {}),has_access = locals_.has_access,fb_user = locals_.fb_user,current_url = locals_.current_url,today = locals_.today;if ( has_access)
 {
 buf.push("<div id=\"public_link\"><a" + (jade.attrs({ 'href':("/u/"+fb_user.id) }, {"href":true})) + ">View public profile</a></div>");
+}
+if ( !has_access)
+{
+buf.push("<div id=\"share_button\"><script>(function(d, s, id) {\n  var js, fjs = d.getElementsByTagName(s)[0];\n  if (d.getElementById(id)) return;\n  js = d.createElement(s); js.id = id;\n  js.src = \"//connect.facebook.net/en_US/all.js#xfbml=1&appId=467518710023312\";\n  fjs.parentNode.insertBefore(js, fjs);\n}(document, 'script', 'facebook-jssdk'));</script><div" + (jade.attrs({ 'data-href':(current_url), 'data-width':("200"), 'data-type':("button"), "class": [('fb-share-button')] }, {"data-href":true,"data-width":true,"data-type":true})) + "></div></div>");
 }
 buf.push("<center><div id=\"user_info\"><div class=\"name\">" + (jade.escape(null == (jade.interp = fb_user.name) ? "" : jade.interp)) + "</div><div class=\"task\">" + (jade.escape(null == (jade.interp = fb_user.task) ? "" : jade.interp)) + "</div></div></center><div id=\"calendar_view_wrapper\"><div id=\"calendar_view\"><div id=\"calendar\"></div><div id=\"preview\"></div></div></div><center><div id=\"reflection_wrapper_bg\"><div id=\"reflection_wrapper\"><h2>" + (jade.escape(null == (jade.interp = today) ? "" : jade.interp)) + "</h2><center><textarea id=\"my_reflection\" placeholder=\"Time to write some reflection for your progress in the past few days : )\"></textarea><div id=\"submit_reflection\" class=\"button\">Submit</div></center></div></div></center><center><div id=\"image_upload_wrapper_bg\"><div id=\"image_upload_wrapper\"><h2>" + (jade.escape(null == (jade.interp = today) ? "" : jade.interp)) + "</h2><div class=\"instr\">Time to upload an image for your task : )</div><input id=\"jq_image_upload\" type=\"file\" name=\"file\"/><div id=\"image_upload_icon\"><i class=\"fa fa-upload\"></i><br/><div id=\"image_upload_progress\"></div></div></div></div></center><center><div id=\"done_today\"><h2>You've done today's post!</h2></div></center><center><div id=\"previous_activities\"></div></center>");;return buf.join("");
 };

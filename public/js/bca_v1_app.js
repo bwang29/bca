@@ -56,7 +56,8 @@ FEED = (function() {
     fb_user: null,
     today: "",
     posts_array: null,
-    has_access: false
+    has_access: false,
+    current_url: ""
   };
 
   FEED.prototype.bind_submit_image = function() {
@@ -127,7 +128,6 @@ FEED = (function() {
           $(".d_" + c_month + "_" + c_date).data("idx", idx);
         }
         final_block = ".d_" + c_month + "_" + c_date;
-        ctr += 1;
       }
       if (that.model.posts_array.length === 0) {
         $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>");
@@ -196,6 +196,11 @@ FEED = (function() {
         }
       }
       that.model.posts_array = posts_array;
+      if (has_access && posts_array.length !== 0 && posts_array[0].time === that.get_date(new Date())) {
+        $("#image_upload_wrapper_bg").hide();
+        $("#reflection_wrapper_bg").hide();
+        $("#done_today").show();
+      }
       allow_delete = false;
       if (has_access) {
         allow_delete = true;
@@ -233,7 +238,9 @@ FEED = (function() {
     var that, user_con;
     that = this;
     that.model.today = that.get_date(new Date());
+    that.model.current_url = document.URL;
     if (uid) {
+      document.title = "" + BCA.fb_user.name + "'s Creativity Calendar";
       user_con = new Firebase("https://bca.firebaseIO.com/users/" + uid);
       return user_con.once("value", function(snapshot) {
         var tasks_con;

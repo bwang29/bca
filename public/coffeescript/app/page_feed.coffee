@@ -5,6 +5,7 @@ class FEED
     today: ""
     posts_array: null
     has_access: false
+    current_url: ""
   bind_submit_image: ()->
     BCA.ui.make_jq_img_upload "jq_image_upload","image_upload_wrapper","image_upload_progress", (img_url)->
       BCA.db_uploads.child(BCA.fb_user.id).push
@@ -52,7 +53,7 @@ class FEED
           $(".d_#{c_month}_#{c_date} div").text(p.reflect)
           $(".d_#{c_month}_#{c_date}").data("idx",idx)
         final_block = ".d_#{c_month}_#{c_date}"
-        ctr += 1# for demo only
+        #ctr += 1# for demo only
       if that.model.posts_array.length == 0
         $("#preview").html("<div style='text-align:center;padding-top:100px'>No activity uploaded.</div>")
       $(".c_date").unbind().click ()->
@@ -99,10 +100,10 @@ class FEED
           $("#done_today").hide()
 
       that.model.posts_array = posts_array
-      # if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
-      #   $("#image_upload_wrapper_bg").hide()
-      #   $("#reflection_wrapper_bg").hide()
-      #   $("#done_today").show()
+      if has_access && posts_array.length != 0 && posts_array[0].time == that.get_date(new Date())
+        $("#image_upload_wrapper_bg").hide()
+        $("#reflection_wrapper_bg").hide()
+        $("#done_today").show()
 
       allow_delete = false
       if has_access
@@ -124,7 +125,10 @@ class FEED
   init: (uid)->
     that = this
     that.model.today = that.get_date(new Date())
+    that.model.current_url = document.URL
     if uid # for public view..
+      # change the title of the page
+      document.title = "#{BCA.fb_user.name}'s Creativity Calendar"
       user_con = new Firebase("https://bca.firebaseIO.com/users/#{uid}")
       user_con.once "value", (snapshot) ->
         BCA.fb_user = snapshot.val()
