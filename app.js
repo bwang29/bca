@@ -3,9 +3,7 @@ var http = require('http')
 var path = require('path');
 var fs = require('fs');
 var knox = require('knox').createClient({
-    key: 'AKIAIKHXW7I7755L5XGA'
-    , secret: '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'
-    , bucket: 'collectivity'
+
 });
 var app = express();
 
